@@ -8,4 +8,6 @@
     <select id="selectByName" resultType="com.lh.mall.ums.entity.UmsMember">
         select * from ums_member where username = #{name}
     </select>
+
+
 </mapper>

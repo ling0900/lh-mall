@@ -2,7 +2,10 @@ package com.lh.mall.ums.mapper;
 
 import com.lh.mall.ums.entity.UmsMember;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lh.mall.ums.entity.dto.UmsMemberRegisterDTO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
