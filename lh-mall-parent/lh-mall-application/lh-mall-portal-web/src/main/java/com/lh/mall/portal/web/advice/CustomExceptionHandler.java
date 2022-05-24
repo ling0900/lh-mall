@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 // 不加@RestController，则捕获异常时候，找不到页面：404.
 @RestController*/
 
+/**
+ * @author lh
+ */
 @RestControllerAdvice
-public class AllExceptionHandler {
+public class CustomExceptionHandler {
 
     //这里精确异常
     @ExceptionHandler(NullPointerException.class)
