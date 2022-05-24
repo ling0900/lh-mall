@@ -22,10 +22,11 @@ public class ValidateHandler extends ResponseEntityExceptionHandler {
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
             String defaultMessage = fieldError.getDefaultMessage();
             sb.append(" " + defaultMessage);
+            //有一个异常就抛出
             break;
         }
         return new ResponseEntity(ResultWrapper.builder()
                 .code(100)
-                .msg(sb.toString()), HttpStatus.OK);
+                .msg(sb.toString()).build(), HttpStatus.OK);
     }
 }
