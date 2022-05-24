@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!--仅用来管理所有的api而已，用pom！-->
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+
+    <modules>
+        <!--        -->
+        <module>lh-mall-ums-api</module>
+        <module>lh-mall-pay-api</module>
+        <module>lh-mall-oms-api</module>
+        <module>lh-mall-pms-api</module>
+        <module>lh-mall-sms-api</module>
+        <module>lh-mall-cms-api</module>
+        <module>lh-mall-cart-api</module>
+        <module>lh-mall-dictionary-api</module>
+    </modules>
+
+    <groupId>com.lh</groupId>
+    <artifactId>lh-mall-api</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+</project>
