@@ -1,5 +1,6 @@
 package com.lh.mall.portal.web.controller;
 
+import com.lh.mall.ums.entity.UmsMember;
 import com.lh.mall.ums.entity.dto.UmsMemberLoginDTO;
 import com.lh.mall.ums.entity.dto.UmsMemberRegisterDTO;
 import com.lh.mall.ums.service.UmsMemberService;
@@ -23,8 +24,9 @@ public class UserMemberController {
     UmsMemberService umsMemberService;
 
     @RequestMapping("/test")
-    public String test(){
-        return "---";
+    public void test(){
+        UmsMember umsMember = new UmsMember();
+        umsMember.getNickName().toString();
     }
 
 

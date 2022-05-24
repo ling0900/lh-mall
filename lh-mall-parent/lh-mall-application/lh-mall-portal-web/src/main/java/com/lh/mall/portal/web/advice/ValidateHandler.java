@@ -1,6 +1,5 @@
 package com.lh.mall.portal.web.advice;
 
-import com.lhcommon.base.enums.StateCodeEnum;
 import com.lhcommon.base.result.ResultWrapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
