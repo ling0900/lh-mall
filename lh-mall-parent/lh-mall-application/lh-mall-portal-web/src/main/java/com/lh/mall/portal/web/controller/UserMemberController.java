@@ -3,6 +3,7 @@ package com.lh.mall.portal.web.controller;
 import com.lh.mall.ums.entity.dto.UmsMemberLoginDTO;
 import com.lh.mall.ums.entity.dto.UmsMemberRegisterDTO;
 import com.lh.mall.ums.service.UmsMemberService;
+import com.lhcommon.base.result.ResultWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +27,9 @@ public class UserMemberController {
 
 
     @RequestMapping("/register")
-    public String register(@RequestBody UmsMemberRegisterDTO umsMemberRegisterDTO) {
+    public ResultWrapper register(@RequestBody UmsMemberRegisterDTO umsMemberRegisterDTO) {
         umsMemberService.register(umsMemberRegisterDTO);
-        return "hello---";
+        return ResultWrapper.getSuccessResultWrapperBuilder().data("").build();
     }
 
     @RequestMapping("/login")
