@@ -2,6 +2,7 @@ package com.lh.mall.ums.service;
 
 import com.lh.mall.ums.entity.UmsMember;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lh.mall.ums.entity.dto.UmsMemberLoginDTO;
 import com.lh.mall.ums.entity.dto.UmsMemberRegisterDTO;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +16,5 @@ import org.springframework.stereotype.Service;
  */
 public interface UmsMemberService extends IService<UmsMember> {
     public String register(UmsMemberRegisterDTO umsMemberRegisterDTO);
+    public Boolean login(UmsMemberLoginDTO umsMemberLoginDTO);
 }

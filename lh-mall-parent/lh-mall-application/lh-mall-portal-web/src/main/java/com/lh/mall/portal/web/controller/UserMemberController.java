@@ -1,14 +1,12 @@
 package com.lh.mall.portal.web.controller;
 
-import com.lh.mall.ums.entity.UmsMember;
+import com.lh.mall.ums.entity.dto.UmsMemberLoginDTO;
 import com.lh.mall.ums.entity.dto.UmsMemberRegisterDTO;
 import com.lh.mall.ums.service.UmsMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * @author 99261
@@ -31,5 +29,11 @@ public class UserMemberController {
     public String register(@RequestBody UmsMemberRegisterDTO umsMemberRegisterDTO) {
         umsMemberService.register(umsMemberRegisterDTO);
         return "hello---";
+    }
+
+    @RequestMapping("/login")
+    public String login(@RequestBody UmsMemberLoginDTO umsMemberLoginDTO) {
+        Boolean login = umsMemberService.login(umsMemberLoginDTO);
+        return "hello: " + login;
     }
 }
