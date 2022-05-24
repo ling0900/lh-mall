@@ -35,7 +35,7 @@ public class UserMemberController {
     }
 
     @RequestMapping("/login")
-    public String login(@RequestBody UmsMemberLoginDTO umsMemberLoginDTO) {
+    public String login(@RequestBody @Valid UmsMemberLoginDTO umsMemberLoginDTO) {
         Boolean login = umsMemberService.login(umsMemberLoginDTO);
         return "hello: " + login;
     }
