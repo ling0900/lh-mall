@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * @author 99261
  */
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserMemberController {
 
     @Autowired
-//    @Resource 这里得将他的实现jar包引进来到pom。
+    //@Resource 这里得将他的实现jar包引进来到pom。
     UmsMemberService umsMemberService;
 
     @RequestMapping("/test")
@@ -27,7 +29,7 @@ public class UserMemberController {
 
 
     @RequestMapping("/register")
-    public ResultWrapper register(@RequestBody UmsMemberRegisterDTO umsMemberRegisterDTO) {
+    public ResultWrapper register(@RequestBody @Valid UmsMemberRegisterDTO umsMemberRegisterDTO) {
         umsMemberService.register(umsMemberRegisterDTO);
         return ResultWrapper.getSuccessResultWrapperBuilder().data("").build();
     }

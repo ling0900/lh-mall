@@ -3,6 +3,8 @@ package com.lh.mall.ums.entity.dto;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * @author 99261
  * 注册的
@@ -10,6 +12,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class UmsMemberRegisterDTO {
+    @NotEmpty(message = "用户名不能为空")
     private String username;
     private String password;
     /**
