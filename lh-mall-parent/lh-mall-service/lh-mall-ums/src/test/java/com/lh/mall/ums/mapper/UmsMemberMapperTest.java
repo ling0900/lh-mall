@@ -13,10 +13,8 @@ class UmsMemberMapperTest {
     UmsMemberMapper umsMemberMapper;
     @Test
     void test() {
-        UmsMember u = new UmsMember();
-        // 有了递增，数据库，set的id也不会生效的。
-        u.setId(2L);
-        u.setUsername("wu0Name");
-        umsMemberMapper.insert(u);
+        String name = "meng";
+        UmsMember umsMember = umsMemberMapper.selectByName(name);
+        System.out.println(umsMember.toString());
     }
 }

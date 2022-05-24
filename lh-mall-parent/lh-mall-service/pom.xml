@@ -7,7 +7,15 @@
     <packaging>pom</packaging>
 
     <modules>
+        <!--        -->
         <module>lh-mall-ums</module>
+        <module>lh-mall-pay</module>
+        <module>lh-mall-oms</module>
+        <module>lh-mall-pms</module>
+        <module>lh-mall-sms</module>
+        <module>lh-mall-cms</module>
+        <module>lh-mall-cart</module>
+        <module>lh-mall-dictionary</module>
     </modules>
     <groupId>com.lh</groupId>
     <artifactId>lh-mall-service</artifactId>

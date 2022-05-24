@@ -17,4 +17,5 @@ import org.springframework.stereotype.Repository;
 //@Repository 这个注解会报错
 public interface UmsMemberMapper extends BaseMapper<UmsMember> {
     UmsMember getAll();
+    UmsMember selectByName(String name);
 }
