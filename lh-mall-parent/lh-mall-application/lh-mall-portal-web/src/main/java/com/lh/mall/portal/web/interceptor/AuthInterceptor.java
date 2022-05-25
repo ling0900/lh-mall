@@ -2,6 +2,7 @@ package com.lh.mall.portal.web.interceptor;
 
 import com.lh.mall.util.EDE.JwtUtil;
 import com.lhcommon.base.annotation.TokenCheck;
+import com.lhcommon.base.exception.TokenExcepiton;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.method.HandlerMethod;
@@ -36,7 +37,8 @@ public class AuthInterceptor implements HandlerInterceptor {
                     log.info("token不存在");
                     log.error("token不存在");
                     // return false;
-                    throw new LoginException("token为空");
+                    // throw new LoginException("token为空");
+                    throw new TokenExcepiton("token解析异常");
                 }
                 // 校验token
                 try {
@@ -48,7 +50,9 @@ public class AuthInterceptor implements HandlerInterceptor {
                     log.error("token解析失败了" + e.toString());
                     // return false;
                     // 统一异常处理那里做了代码配置，所以这里可以这么写，不会出错，否则可能会报500.
-                    throw new LoginException("token解析异常");
+                    // throw new LoginException("token解析异常");
+                    // 用自己定义的token异常
+                    throw new TokenExcepiton("token解析异常");
                 }
             }
             return true;

@@ -1,5 +1,6 @@
 package com.lh.mall.portal.web.advice;
 
+import com.lhcommon.base.exception.TokenExcepiton;
 import com.lhcommon.base.result.ResultWrapper;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,8 +24,8 @@ public class CustomExceptionHandler {
         return ResultWrapper.builder().code(0000).msg("null").build();
     }
 
-    // 捕获LoginException异常
-    @ExceptionHandler(LoginException.class)
+    // 捕获TokenExcepiton异常
+    @ExceptionHandler(TokenExcepiton.class)
     public ResultWrapper lockException(Exception e) {
         return ResultWrapper.getFailedResultWrapperBuilder()
                 .msg(e.getMessage())
