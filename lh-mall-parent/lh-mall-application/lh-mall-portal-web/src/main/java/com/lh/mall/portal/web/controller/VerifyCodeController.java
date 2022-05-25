@@ -18,15 +18,18 @@ import java.io.IOException;
 @RequestMapping("/code")
 public class VerifyCodeController {
 
+    String attrName = "verifyCode";
+
     /**
      * Generate code.
      */
     @RequestMapping("/generateCode")
     // @TokenCheck(required = false)
-    public void generateCode(HttpServletResponse response) {
+    public void generateCode(HttpServletRequest request, HttpServletResponse response) {
         ImageCode imageCode = ImageCode.getInstance();
         // 得到code
         String code = imageCode.getCode();
+        request.getSession().setAttribute(attrName, code);
         // 得到图片
         ByteArrayInputStream image = imageCode.getImage();
         // 写出去
@@ -51,6 +54,10 @@ public class VerifyCodeController {
      */
     @RequestMapping("/verifyCode")
     public String verifyCode(String code, HttpServletRequest request) {
-        return "";
+        String s = request.getSession().getAttribute(attrName).toString();
+        if (code.equals(s)) {
+            return "通过";
+        }
+        return "no";
     }
 }
