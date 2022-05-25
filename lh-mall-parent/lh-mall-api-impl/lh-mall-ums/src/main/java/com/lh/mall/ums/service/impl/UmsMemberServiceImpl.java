@@ -6,6 +6,8 @@ import com.lh.mall.ums.entity.dto.UmsMemberLoginDTO;
 import com.lh.mall.ums.entity.dto.UmsMemberRegisterDTO;
 import com.lh.mall.ums.mapper.UmsMemberMapper;
 import com.lh.mall.ums.service.UmsMemberService;
+import com.lh.mall.util.EDE.JwtUtil;
+import com.lhcommon.base.result.ResultWrapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +29,7 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    //注册
     @Override
     public String register(UmsMemberRegisterDTO umsMemberRegisterDTO) {
         UmsMember umsMember = new UmsMember();
@@ -38,8 +41,33 @@ public class UmsMemberServiceImpl extends ServiceImpl<UmsMemberMapper, UmsMember
     }
 
     @Override
-    public Boolean login(UmsMemberLoginDTO umsMemberLoginDTO) {
+    public String login(UmsMemberLoginDTO umsMemberLoginDTO) {
         UmsMember umsMember = umsMemberMapper.selectByName(umsMemberLoginDTO.getUsername());
-        return passwordEncoder.matches(umsMemberLoginDTO.getPassword(), umsMember.getPassword());
+        boolean matches = passwordEncoder.matches(umsMemberLoginDTO.getPassword(), umsMember.getPassword());
+
+        if (matches) {
+            return JwtUtil.createToken(umsMemberLoginDTO.getUsername());
+        }
+
+        return "";
+    }
+
+    /**
+     * 校验 鉴权接口
+     * @param umsMemberLoginDTO
+     * @return
+     */
+    @Override
+    public boolean verifyToken(UmsMemberLoginDTO umsMemberLoginDTO) {
+        String s = JwtUtil.parseToken(umsMemberLoginDTO.getToken());
+        System.out.println("================\n" + s);
+        return true;
+    }
+
+    @Override
+    public ResultWrapper modify(UmsMember umsMember) {
+        // 业务代码，省略。
+        return ResultWrapper.getSuccessResultWrapperBuilder()
+                .data(umsMember).build();
     }
 }

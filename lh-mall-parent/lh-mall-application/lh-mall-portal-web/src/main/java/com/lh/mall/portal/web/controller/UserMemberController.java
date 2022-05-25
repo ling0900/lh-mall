@@ -4,6 +4,7 @@ import com.lh.mall.ums.entity.UmsMember;
 import com.lh.mall.ums.entity.dto.UmsMemberLoginDTO;
 import com.lh.mall.ums.entity.dto.UmsMemberRegisterDTO;
 import com.lh.mall.ums.service.UmsMemberService;
+import com.lhcommon.base.annotation.TokenCheck;
 import com.lhcommon.base.result.ResultWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +39,20 @@ public class UserMemberController {
 
     @RequestMapping("/login")
     public String login(@RequestBody @Valid UmsMemberLoginDTO umsMemberLoginDTO) {
-        Boolean login = umsMemberService.login(umsMemberLoginDTO);
-        return "hello: " + login;
+        String login = umsMemberService.login(umsMemberLoginDTO);
+        return "登陆结果: " + login;
+    }
+
+    // 思考如何针对字段接口定制校验字段？
+    @RequestMapping("/verifyToken")
+    public String verifyToken(@RequestBody UmsMemberLoginDTO umsMemberLoginDTO) {
+        boolean b = umsMemberService.verifyToken(umsMemberLoginDTO);
+        return "结果：" + b;
+    }
+
+    @RequestMapping("/modify")
+    @TokenCheck
+    public ResultWrapper modify(@RequestBody UmsMember umsMember) {
+        return umsMemberService.modify(umsMember);
     }
 }
