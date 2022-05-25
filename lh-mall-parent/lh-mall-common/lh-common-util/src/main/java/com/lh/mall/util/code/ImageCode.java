@@ -50,7 +50,7 @@ public class ImageCode {
             String s = String.valueOf(random.nextInt(10));
             this.code += s;
             graphics.setColor(new Color(17, 11, 213));
-            graphics.drawString(s, width / 6 * i, 40);
+            graphics.drawString(s, (width / 6) * i, 40);
         }
 
         // 结束

@@ -16,8 +16,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user-member/login")
 //                这里如果不排除，则这个接口，会进行拦截器。
-//                下面的这个，如果程序运行过程中，出现了异常界面，则拦截器依旧会去拦截。
-                .excludePathPatterns("/code/generateCode");
+//                下面的这个，如果程序运行过程中，出现了异常界面，则拦截器依旧会去拦截。favicon.ico/**在生成验证码的时候，
+//                会返回这个页面，不排除就出问题。 默认情况下，浏览器会自动请求favicon.ico文件。 favicon.ico文件是显示在浏览器网址栏中的小图标
+                .excludePathPatterns("/code/generateCode").excludePathPatterns("/favicon.ico/**");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 
