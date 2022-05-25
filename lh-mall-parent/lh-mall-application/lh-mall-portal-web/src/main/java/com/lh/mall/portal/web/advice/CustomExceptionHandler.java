@@ -23,7 +23,6 @@ public class CustomExceptionHandler {
         // 思考，如何定位到是哪里的异常？
         return ResultWrapper.builder().code(0000).msg("null").build();
     }
-
     // 捕获TokenExcepiton异常
     @ExceptionHandler(TokenExcepiton.class)
     public ResultWrapper lockException(Exception e) {
