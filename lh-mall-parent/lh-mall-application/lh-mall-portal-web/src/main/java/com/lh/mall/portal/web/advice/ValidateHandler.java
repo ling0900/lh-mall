@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-// 校验处理类，这个怎么实现的呢，底层？
+// 校验处理类，这个怎么实现的呢，底层？这个如果不加，想想会对哪里产生影响？
 @ControllerAdvice
 public class ValidateHandler extends ResponseEntityExceptionHandler {
     @Override
