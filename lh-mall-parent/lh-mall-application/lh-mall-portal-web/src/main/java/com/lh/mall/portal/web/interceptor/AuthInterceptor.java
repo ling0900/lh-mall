@@ -30,16 +30,16 @@ public class AuthInterceptor implements HandlerInterceptor {
             TokenCheck annotation = method.getAnnotation(TokenCheck.class);
             // 如果含有注解TokenCheck
             if (annotation.required()) {
+                // 获取token，一般把token放在header里面的。
+                String token = request.getHeader("token");
+                if (StringUtils.isBlank(token)) {
+                    log.info("token不存在");
+                    log.error("token不存在");
+                    // return false;
+                    throw new LoginException("token为空");
+                }
                 // 校验token
                 try {
-                    // 获取token，一般把token放在header里面的。
-                    String token = request.getHeader("token");
-                    if (StringUtils.isBlank(token)) {
-                        log.info("token不存在");
-                        log.error("token不存在");
-                        // return false;
-                        throw new LoginException("token为空");
-                    }
                     JwtUtil.parseToken(token);
                     // 此处的逻辑是，如果解析token能够不出错，则认为通过了校验。
                     return true;

@@ -27,7 +27,6 @@ public class CustomExceptionHandler {
     @ExceptionHandler(LoginException.class)
     public ResultWrapper lockException(Exception e) {
         return ResultWrapper.getFailedResultWrapperBuilder()
-                .code(0000)
                 .msg(e.getMessage())
                 .build();
     }
