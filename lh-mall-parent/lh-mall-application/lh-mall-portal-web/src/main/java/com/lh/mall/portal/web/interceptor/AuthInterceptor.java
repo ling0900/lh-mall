@@ -44,8 +44,11 @@ public class AuthInterceptor implements HandlerInterceptor {
                     // 此处的逻辑是，如果解析token能够不出错，则认为通过了校验。
                     return true;
                 } catch (Exception e) {
+                    // 这个里面是捕获了异常，然后再做一次处理，最后抛出来的是自定义的统一异常。
                     log.error("token解析失败了" + e.toString());
-                    return false;
+                    // return false;
+                    // 统一异常处理那里做了代码配置，所以这里可以这么写，不会出错，否则可能会报500.
+                    throw new LoginException("token解析异常");
                 }
             }
             return true;
