@@ -1,8 +1,7 @@
 package com.lh.mall.portal.web.controller;
 
 import com.lh.mall.util.code.ImageCode;
-import com.lhcommon.base.annotation.TokenCheck;
-import org.apache.xmlgraphics.util.io.Base64EncodeStream;
+import com.lh.mall.util.code.ImageCodeMath;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +28,8 @@ public class VerifyCodeController {
     @RequestMapping("/generateCode")
     // @TokenCheck(required = false)
     public void generateCode(HttpServletRequest request, HttpServletResponse response) {
-        ImageCode imageCode = ImageCode.getInstance();
+        // ImageCode imageCode = ImageCode.getInstance();
+        ImageCodeMath imageCode = ImageCodeMath.getInstance();
         // 得到code
         String code = imageCode.getCode();
         request.getSession().setAttribute(attrName, code);
