@@ -13,7 +13,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <groupId>com.lh</groupId>
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
+        <!-- OCR https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
         <dependency>
             <groupId>net.sourceforge.tess4j</groupId>
             <artifactId>tess4j</artifactId>
