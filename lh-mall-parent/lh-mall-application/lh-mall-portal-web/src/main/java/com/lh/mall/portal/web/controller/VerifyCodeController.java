@@ -2,6 +2,7 @@ package com.lh.mall.portal.web.controller;
 
 import com.lh.mall.util.code.ImageCode;
 import com.lhcommon.base.annotation.TokenCheck;
+import org.apache.xmlgraphics.util.io.Base64EncodeStream;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,7 +10,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 
 /**
  * The type Verify code controller.
@@ -44,6 +47,33 @@ public class VerifyCodeController {
             e.printStackTrace();
         }
 
+    }
+
+    @RequestMapping("/generate64Code")
+    // @TokenCheck(required = false)
+    public String generate64Code(HttpServletRequest request, HttpServletResponse response) {
+        String s = null;
+        try {
+            ImageCode imageCode = ImageCode.getInstance();
+            // 得到code
+            String code = imageCode.getCode();
+            request.getSession().setAttribute(attrName, code);
+            // 得到图片
+            ByteArrayInputStream image = imageCode.getImage();
+            ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+            byte[] buff = new byte[1024];
+            int r = 0;
+            while ((r=image.read(buff, 0, 1024)) > 0) {
+                swapStream.write(buff, 0, r);
+            }
+
+            byte[] data = swapStream.toByteArray();
+            // 转64
+            s = Base64.getEncoder().encodeToString(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return s;
     }
 
     /**
