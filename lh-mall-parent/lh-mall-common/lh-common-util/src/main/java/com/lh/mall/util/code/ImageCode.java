@@ -21,7 +21,7 @@ public class ImageCode {
     private ByteArrayInputStream image;
     // 图形的属性
     private int width = 100;
-    private int height =  400;
+    private int height =  80;
 
     /**
      * Get instance image code.
@@ -38,7 +38,7 @@ public class ImageCode {
         // 画笔
         Graphics graphics = image.getGraphics();
         // 画图
-        graphics.setColor(new Color(17, 147, 37));
+        graphics.setColor(new Color(100, 200, 22));
         // 矩形
         graphics.fillRect(0, 0, width, height);
         //开始涂字，字体
@@ -49,9 +49,16 @@ public class ImageCode {
         for (int i = 0; i < 4; i++) {
             String s = String.valueOf(random.nextInt(10));
             this.code += s;
-            graphics.setColor(new Color(17, 11, 213));
+            // 字的颜色
+            graphics.setColor(new Color(0, 0, 0));
             graphics.drawString(s, (width / 6) * i, 40);
+
+            // 画线
+            graphics.setColor(new Color(100, 100, 100));
+            graphics.drawLine((width / 6) * i, 40, (width / 6) * i + 22, 40 - 12);
         }
+
+
 
         // 结束
         graphics.dispose();
