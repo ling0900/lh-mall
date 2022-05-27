@@ -1,35 +1,44 @@
 package com.lh.mall.portal.web.controller;
 
+import com.baomidou.kaptcha.Kaptcha;
 import com.ramostear.captcha.HappyCaptcha;
 import com.ramostear.captcha.support.CaptchaStyle;
 import com.ramostear.captcha.support.CaptchaType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * The type K captcha controller.
+ */
 @RestController
 @RequestMapping("/k-Captcha")
 public class KCaptchaController {
-
-    String attrName = "verifyCode";
+    @Autowired
+    private Kaptcha kaptcha;
 
     /**
      * Generate code.
+     * @param request  the request
+     * @param response the response
      */
     @RequestMapping("/generateCode")
     public void generateCode(HttpServletRequest request, HttpServletResponse response) {
-        HappyCaptcha.require(request, response)
-                .style(CaptchaStyle.ANIM)
-                // 设置样式，例如加减等等。
-                .type(CaptchaType.ARITHMETIC_ZH)
-                .build().finish();
+        kaptcha.render();
     }
 
+    /**
+     * Verify code string.
+     * @param code    the code
+     * @param request the request
+     * @return the string
+     */
     @RequestMapping("/verifyCode")
     public String verifyCode(String code, HttpServletRequest request) {
-        Boolean aBoolean = HappyCaptcha.verification(request, code, true);
+        Boolean aBoolean = kaptcha.validate(code);
         if (aBoolean) {
             // 可以这里验证后，直接remove掉。
             return "通过";
