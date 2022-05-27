@@ -125,4 +125,13 @@ public class VerifyCodeController {
         }
         return "no";
     }
+
+    @RequestMapping("/verifyJCCode")
+    public String verifyJCCode(String code, HttpServletRequest request) {
+        Boolean aBoolean = JCaptchaUtil.getService().validateResponseForID(request.getSession().getId(), code);
+        if (aBoolean) {
+            return "通过";
+        }
+        return "no";
+    }
 }
