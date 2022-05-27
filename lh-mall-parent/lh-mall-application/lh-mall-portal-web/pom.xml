@@ -75,6 +75,12 @@
             <artifactId>commons-collections</artifactId>
             <version>3.2.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.ramostear/Happy-Captcha -->
+        <dependency>
+            <groupId>com.ramostear</groupId>
+            <artifactId>Happy-Captcha</artifactId>
+            <version>1.0.1</version>
+        </dependency>
 
 
         <dependency>
