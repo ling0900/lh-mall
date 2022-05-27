@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -20,8 +21,10 @@ import javax.validation.Valid;
 @RequestMapping("/user-member")
 public class UserMemberController {
 
-    @Autowired
+//    @Autowired
     //@Resource 这里得将他的实现jar包引进来到pom。
+    // 这里需要将service和对应的impl一起导入包！
+    @Autowired
     UmsMemberService umsMemberService;
 
     @RequestMapping("/test")

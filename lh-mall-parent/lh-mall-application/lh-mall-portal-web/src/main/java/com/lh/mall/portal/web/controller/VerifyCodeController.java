@@ -1,13 +1,18 @@
 package com.lh.mall.portal.web.controller;
 
+import com.lh.mall.util.JCaptcha.JCaptchaUtil;
 import com.lh.mall.util.code.ImageCode;
 import com.lh.mall.util.code.ImageCodeMath;
+import com.octo.captcha.service.image.ImageCaptchaService;
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,7 +33,6 @@ public class VerifyCodeController {
     @RequestMapping("/generateCode")
     // @TokenCheck(required = false)
     public void generateCode(HttpServletRequest request, HttpServletResponse response) {
-        // ImageCode imageCode = ImageCode.getInstance();
         ImageCodeMath imageCode = ImageCodeMath.getInstance();
         // 得到code
         String code = imageCode.getCode();
@@ -74,6 +78,37 @@ public class VerifyCodeController {
             e.printStackTrace();
         }
         return s;
+    }
+
+    @RequestMapping("/generateJCCode")
+    public void generateJCCode(HttpServletRequest request, HttpServletResponse response) {
+
+        String sessionId = request.getSession().getId();
+        ImageCaptchaService service = JCaptchaUtil.getService();
+        BufferedImage bufferedImage = service.getImageChallengeForID(sessionId);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        // 转成图片类型
+        JPEGImageEncoder jpegEncoder = JPEGCodec.createJPEGEncoder(byteArrayOutputStream);
+
+        try {
+            jpegEncoder.encode(bufferedImage);
+
+            // write
+            response.setHeader("Cache-Control", "no-tore");
+            response.setContentType("image/jpeg");
+            byte[] bytes = byteArrayOutputStream.toByteArray();
+
+            ServletOutputStream outputStream = response.getOutputStream();
+
+            outputStream.write(bytes);
+            outputStream.flush();
+            outputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return;
     }
 
     /**

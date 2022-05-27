@@ -95,6 +95,12 @@
             <artifactId>lh-common-util</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-security-crypto</artifactId>
+                    <groupId>org.springframework.security</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
