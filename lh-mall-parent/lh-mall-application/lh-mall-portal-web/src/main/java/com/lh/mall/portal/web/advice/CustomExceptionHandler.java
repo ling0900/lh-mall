@@ -35,14 +35,14 @@ public class CustomExceptionHandler {
 
     //
     @ExceptionHandler(KaptchaException.class)
-    public String kCaptchaException(KaptchaException e) {
+    public ResultWrapper kCaptchaException(KaptchaException e) {
         if (e instanceof KaptchaTimeoutException) {
-            return "超时";
+            return ResultWrapper.builder().code(300).msg("超时").build();
         } else if (e instanceof KaptchaIncorrectException) {
-            return "验证码错误";
+            return ResultWrapper.builder().code(301).msg("验证码错误").build();
         } else if (e instanceof KaptchaNotFoundException) {
-            return "wu";
+            return ResultWrapper.builder().code(301).msg("验证码已经被使用").build();
         }
-        return "";
+        return ResultWrapper.builder().code(400).msg("未知错误").build();
     }
 }
