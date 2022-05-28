@@ -1,4 +1,4 @@
-package com.lh.mall.portal.web.utile;
+package com.lh.mall.portal.web.util;
 
 import com.octo.captcha.CaptchaFactory;
 import com.octo.captcha.component.image.backgroundgenerator.UniColorBackgroundGenerator;

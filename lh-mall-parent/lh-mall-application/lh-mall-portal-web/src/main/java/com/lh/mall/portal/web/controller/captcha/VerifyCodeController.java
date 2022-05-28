@@ -1,4 +1,4 @@
-package com.lh.mall.portal.web.controller;
+package com.lh.mall.portal.web.controller.captcha;
 
 import com.lh.mall.util.JCaptcha.JCaptchaUtil;
 import com.lh.mall.util.code.ImageCode;

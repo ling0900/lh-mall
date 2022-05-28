@@ -1,6 +1,9 @@
-package com.lh.mall.portal.web.controller;
+package com.lh.mall.portal.web.controller.captcha;
 
+import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.utils.CaptchaUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,8 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/easy-Captcha")
-public class EasyCaptchaController {
+@RequestMapping("/redis-Captcha")
+public class RedisCaptchaController {
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * Generate code.
@@ -18,7 +24,13 @@ public class EasyCaptchaController {
     @RequestMapping("/generateCode")
     public void generateCode(HttpServletRequest request, HttpServletResponse response) {
         try {
-            CaptchaUtil.out(request, response);
+            SpecCaptcha specCaptcha = new SpecCaptcha(100,60);
+            String textCode = specCaptcha.text();
+            // 放redis
+            String uuid = "code-ca";
+            //+ UUID.randomUUID();
+            stringRedisTemplate.opsForValue().set(uuid, textCode);
+            CaptchaUtil.out(specCaptcha, request, response);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -26,8 +38,8 @@ public class EasyCaptchaController {
 
     @RequestMapping("/verifyCode")
     public String verifyCode(String code, HttpServletRequest request) {
-        Boolean aBoolean = CaptchaUtil.ver(code, request);
-        if (aBoolean) {
+        String s = stringRedisTemplate.opsForValue().get("code-ca");
+        if (s.equals(code)) {
             // 可以这里验证后，直接remove掉。
             return "通过";
         }

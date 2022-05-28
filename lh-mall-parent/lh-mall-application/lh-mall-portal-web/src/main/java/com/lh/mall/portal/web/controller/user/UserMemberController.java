@@ -1,4 +1,4 @@
-package com.lh.mall.portal.web.controller;
+package com.lh.mall.portal.web.controller.user;
 
 import com.lh.mall.ums.entity.UmsMember;
 import com.lh.mall.ums.entity.dto.UmsMemberLoginDTO;

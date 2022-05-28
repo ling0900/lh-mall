@@ -1,4 +1,4 @@
-package com.lh.mall.portal.web.controller;
+package com.lh.mall.portal.web.controller.captcha;
 
 import com.baomidou.kaptcha.Kaptcha;
 import com.lh.mall.portal.web.cutom.MyCustomGoogleKaptcha;
