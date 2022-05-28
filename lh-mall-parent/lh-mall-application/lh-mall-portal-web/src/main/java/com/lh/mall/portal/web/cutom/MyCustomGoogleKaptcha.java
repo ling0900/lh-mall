@@ -1,6 +1,6 @@
 /**
  * Copyright © 2018 TaoYu (tracy5546@gmail.com)
- *
+ * modify by 孟令浩 992610900@qq.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,38 +15,37 @@
  */
 package com.lh.mall.portal.web.cutom;
 
-import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_DATE;
-import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
-
 import com.baomidou.kaptcha.Kaptcha;
 import com.baomidou.kaptcha.exception.KaptchaIncorrectException;
 import com.baomidou.kaptcha.exception.KaptchaNotFoundException;
 import com.baomidou.kaptcha.exception.KaptchaRenderException;
 import com.baomidou.kaptcha.exception.KaptchaTimeoutException;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import java.io.IOException;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
+
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
+import java.io.IOException;
 
 /**
- * 谷歌默认验证码组件
- *
+ * 谷歌默认验证码组件 个性化定制
+ * redis 个性化定制 by 孟令浩
  * @author TaoYu
  */
 @Slf4j
 @Component
 public class MyCustomGoogleKaptcha implements Kaptcha {
+
+  public static final String KAPTCHA_SESSION_KEY = "KAPTCHA_SESSION_KEY";
+  public static final String KAPTCHA_SESSION_DATE = "KAPTCHA_SESSION_DATE";
 
   @Autowired
   private RedisTemplate<String, Object> redisTemplate;
@@ -58,6 +57,8 @@ public class MyCustomGoogleKaptcha implements Kaptcha {
 
   @Autowired
   private HttpServletResponse response;
+
+
 
   public MyCustomGoogleKaptcha(DefaultKaptcha kaptcha) {
     this.kaptcha = kaptcha;
@@ -72,10 +73,8 @@ public class MyCustomGoogleKaptcha implements Kaptcha {
     response.setContentType("image/jpeg");
     String sessionCode = kaptcha.createText();
     try (ServletOutputStream out = response.getOutputStream()) {
-      /*request.getSession().setAttribute(KAPTCHA_SESSION_KEY, sessionCode);
-      request.getSession().setAttribute(KAPTCHA_SESSION_DATE, System.currentTimeMillis());*/
-      redisTemplate.opsForValue().set(KAPTCHA_SESSION_KEY, sessionCode);
-      redisTemplate.opsForValue().set(KAPTCHA_SESSION_DATE, System.currentTimeMillis());
+      redisTemplate.opsForValue().set(KAPTCHA_SESSION_KEY + ":" + request.getSession().getId(), sessionCode);
+      redisTemplate.opsForValue().set(KAPTCHA_SESSION_DATE + ":" + request.getSession().getId(), System.currentTimeMillis());
       ImageIO.write(kaptcha.createImage(sessionCode), "jpg", out);
       return sessionCode;
     } catch (IOException e) {
@@ -94,15 +93,11 @@ public class MyCustomGoogleKaptcha implements Kaptcha {
     String sessionCode;
     if (httpSession != null && (sessionCode = (String) httpSession.getAttribute(KAPTCHA_SESSION_KEY)) != null) {
       if (sessionCode.equalsIgnoreCase(code)) {
-        // long sessionTime = (long) httpSession.getAttribute(KAPTCHA_SESSION_DATE);
-        long sessionTime = (long) redisTemplate.opsForValue().get(KAPTCHA_SESSION_DATE);
+        long sessionTime = (long) redisTemplate.opsForValue().get(KAPTCHA_SESSION_DATE + ":" + request.getSession().getId());
         long duration = (System.currentTimeMillis() - sessionTime) / 1000;
-
         if (duration < second) {
-          redisTemplate.delete(KAPTCHA_SESSION_KEY);
-          redisTemplate.delete(KAPTCHA_SESSION_DATE);
-          /*httpSession.removeAttribute(KAPTCHA_SESSION_KEY);
-          httpSession.removeAttribute(KAPTCHA_SESSION_DATE);*/
+          redisTemplate.delete(KAPTCHA_SESSION_KEY + ":" + request.getSession().getId());
+          redisTemplate.delete(KAPTCHA_SESSION_DATE + ":" + request.getSession().getId());
           return true;
         } else {
           throw new KaptchaTimeoutException();
