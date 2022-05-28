@@ -5,8 +5,6 @@ import com.lhcommon.base.result.ResultWrapper;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.security.auth.login.LoginException;
-
 /*@ControllerAdvice
 // 不加@RestController，则捕获异常时候，找不到页面：404.
 @RestController*/

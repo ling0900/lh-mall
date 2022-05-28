@@ -17,6 +17,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The type Verify code controller.
@@ -123,6 +125,7 @@ public class VerifyCodeController {
         if (code.equals(s)) {
             return "通过";
         }
+
         return "no";
     }
 

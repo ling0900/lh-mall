@@ -1,8 +1,5 @@
 package com.lh.mall.portal.web.controller;
 
-import com.ramostear.captcha.HappyCaptcha;
-import com.ramostear.captcha.support.CaptchaStyle;
-import com.ramostear.captcha.support.CaptchaType;
 import com.wf.captcha.utils.CaptchaUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

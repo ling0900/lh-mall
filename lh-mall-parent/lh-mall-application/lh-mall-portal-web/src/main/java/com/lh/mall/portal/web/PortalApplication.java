@@ -1,6 +1,5 @@
 package com.lh.mall.portal.web;
 
-import com.lh.mall.util.JCaptcha.JCaptchaUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
