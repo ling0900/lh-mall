@@ -1,5 +1,9 @@
 package com.lh.mall.portal.web.advice;
 
+import com.baomidou.kaptcha.exception.KaptchaException;
+import com.baomidou.kaptcha.exception.KaptchaIncorrectException;
+import com.baomidou.kaptcha.exception.KaptchaNotFoundException;
+import com.baomidou.kaptcha.exception.KaptchaTimeoutException;
 import com.lhcommon.base.exception.TokenExcepiton;
 import com.lhcommon.base.result.ResultWrapper;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,5 +31,18 @@ public class CustomExceptionHandler {
         return ResultWrapper.getFailedResultWrapperBuilder()
                 .msg(e.getMessage())
                 .build();
+    }
+
+    //
+    @ExceptionHandler(KaptchaException.class)
+    public String kCaptchaException(KaptchaException e) {
+        if (e instanceof KaptchaTimeoutException) {
+            return "超时";
+        } else if (e instanceof KaptchaIncorrectException) {
+            return "验证码错误";
+        } else if (e instanceof KaptchaNotFoundException) {
+            return "wu";
+        }
+        return "";
     }
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * The type K captcha controller.
+ * 通过拦截器，拦截特定的异常，然后进行统一处理。
  */
 @RestController
 @RequestMapping("/k-Captcha")
