@@ -1,7 +1,9 @@
 package com.lh.mall.portal.web.controller;
 
 import com.baomidou.kaptcha.Kaptcha;
+import com.lh.mall.portal.web.cutom.MyCustomGoogleKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 public class KCaptchaController {
     @Autowired
     private Kaptcha kaptcha;
+    @Autowired
+    MyCustomGoogleKaptcha mkaptcha;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
 
     /**
      * Generate code.
@@ -29,6 +36,34 @@ public class KCaptchaController {
     }
 
     /**
+     * Generate code.
+     * @param request  the request
+     * @param response the response
+     */
+    @RequestMapping("/generateCodeRedis")
+    public void generateCodeRedis(HttpServletRequest request, HttpServletResponse response) {
+        kaptcha.render();
+        String sessionKey = request.getSession().getId();
+        String s = request.getSession().getAttribute("KAPTCHA_SESSION_KEY").toString();
+        stringRedisTemplate.opsForValue().set(sessionKey, s);
+    }
+
+    @RequestMapping("/generateCodeRedisCustom")
+    public void generateCodeRedisCustom(HttpServletRequest request, HttpServletResponse response) {
+        mkaptcha.render();
+    }
+
+    @RequestMapping("/verifyCodeCustom")
+    public String verifyCodeCustom(String code, HttpServletRequest request) {
+        Boolean aBoolean = mkaptcha.validate(code);
+        if (aBoolean) {
+            // 可以这里验证后，直接remove掉。
+            return "通过";
+        }
+        return "no";
+    }
+
+    /**
      * Verify code string.
      * @param code    the code
      * @param request the request
@@ -38,6 +73,17 @@ public class KCaptchaController {
     public String verifyCode(String code, HttpServletRequest request) {
         Boolean aBoolean = kaptcha.validate(code);
         if (aBoolean) {
+            // 可以这里验证后，直接remove掉。
+            return "通过";
+        }
+        return "no";
+    }
+
+    @RequestMapping("/verifyCodeRedis")
+    public String verifyCodeRedis(String code, HttpServletRequest request) {
+        String sessionId = request.getSession().getId();
+        String s = stringRedisTemplate.opsForValue().get(sessionId).toString();
+        if (code.equals(s)) {
             // 可以这里验证后，直接remove掉。
             return "通过";
         }
