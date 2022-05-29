@@ -19,6 +19,8 @@
     <modules>
         <module>lh-mall-manager-web</module>
         <module>lh-mall-portal-web</module>
+        <module>ca-web</module>
+        <module>ca-web-nginx</module>
     </modules>
 
 
